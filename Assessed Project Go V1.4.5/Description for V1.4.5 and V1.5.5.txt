@@ -1,0 +1,19 @@
+V1.4.5
+- Every functions do exactly same work with yours.
+- One of the difference is the variables, rows and remains from line 256.
+  Rows means the number of rows for each workers and remains means the number of workers who will get one extra row for each.
+- So, in most of the functions, the cases are divided by two. One for the general workers and another for the workers who have extra rows.
+- Therefore, all of the logic except the index is same as yours.
+
+
+V1.5.5
+- I made a local variable 'turn' to world variable to access it in worker.
+- I divided the function 'updator' into the two functions, 'updator' and 'sender'.
+  Updator just updates the worldslice, and sender sends it to distributor.
+- I also made new function haloex which exchanges halo between workers.
+- In main.go, I made two new channels, halosavers and turnsaver.
+  Halosavers can save the above and below halo. So in haloex, worker send halo to the appropriate rows of halosavers.
+  Turnsaver is the channel that connects worker and distributor.
+  Worker send current turn through the turnsaver to the distributor after one turn of the logic is done. So distributor can know whether the worker is done or not.
+  So, when distributor get turn from all workers, then distributor increase the current turn to turn+1, and resend it to the worker again, which means that worker can proceed next turn.
+  Therefore, it makes worker not to go faster than the turn.
